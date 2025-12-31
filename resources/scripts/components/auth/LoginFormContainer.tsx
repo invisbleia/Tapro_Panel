@@ -10,45 +10,44 @@ type Props = React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, 
 };
 
 const Container = styled.div`
-    ${breakpoint('sm')`
-        ${tw`w-4/5 mx-auto`}
-    `};
+    ${tw`flex flex-col items-center justify-center min-h-screen px-4`};
+`;
 
+const FormWrapper = styled.div`
+    ${tw`w-full max-w-md p-8 rounded-2xl`};
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    
     ${breakpoint('md')`
-        ${tw`p-10`}
-    `};
-
-    ${breakpoint('lg')`
-        ${tw`w-3/5`}
-    `};
-
-    ${breakpoint('xl')`
-        ${tw`w-full`}
-        max-width: 700px;
+        ${tw`p-12`}
     `};
 `;
 
 export default forwardRef<HTMLFormElement, Props>(({ title, ...props }, ref) => (
     <Container>
-        {title && <h2 css={tw`text-3xl text-center text-neutral-100 font-medium py-4`}>{title}</h2>}
-        <FlashMessageRender css={tw`mb-2 px-1`} />
-        <Form {...props} ref={ref}>
-            <div css={tw`md:flex w-full bg-white shadow-lg rounded-lg p-6 md:pl-0 mx-1`}>
-                <div css={tw`flex-none select-none mb-6 md:mb-0 self-center`}>
-                    <img src={'/assets/svgs/pterodactyl.svg'} css={tw`block w-48 md:w-64 mx-auto`} />
-                </div>
-                <div css={tw`flex-1`}>{props.children}</div>
+        <FormWrapper>
+            <div css={tw`flex flex-col items-center mb-8`}>
+                <img src={'/assets/svgs/pterodactyl.svg'} css={tw`w-20 h-20 mb-4`} alt="Logo" />
+                {title && <h2 css={tw`text-3xl text-center text-white font-bold tracking-tight`}>{title}</h2>}
             </div>
-        </Form>
-        <p css={tw`text-center text-neutral-500 text-xs mt-4`}>
-            &copy; 2015 - {new Date().getFullYear()}&nbsp;
+            <FlashMessageRender css={tw`mb-4`} />
+            <Form {...props} ref={ref}>
+                <div css={tw`space-y-6`}>
+                    {props.children}
+                </div>
+            </Form>
+        </FormWrapper>
+        <p css={tw`text-center text-neutral-500 text-xs mt-8`}>
+            &copy; {new Date().getFullYear()}&nbsp;
             <a
                 rel={'noopener nofollow noreferrer'}
-                href={'https://pterodactyl.io'}
+                href={'https://taprocloud.com'}
                 target={'_blank'}
-                css={tw`no-underline text-neutral-500 hover:text-neutral-300`}
+                css={tw`no-underline text-neutral-500 hover:text-blue-400 transition-colors duration-200`}
             >
-                Pterodactyl Software
+                Tapro Cloud
             </a>
         </p>
     </Container>

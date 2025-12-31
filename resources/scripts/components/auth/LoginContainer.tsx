@@ -10,6 +10,8 @@ import tw from 'twin.macro';
 import Button from '@/components/elements/Button';
 import Reaptcha from 'reaptcha';
 import useFlash from '@/plugins/useFlash';
+import TaproBackground from '@/components/elements/TaproBackground';
+import TaproNavbar from '@/components/elements/TaproNavbar';
 
 interface Values {
     username: string;
@@ -74,40 +76,64 @@ const LoginContainer = ({ history }: RouteComponentProps) => {
             })}
         >
             {({ isSubmitting, setSubmitting, submitForm }) => (
-                <LoginFormContainer title={'Login to Continue'} css={tw`w-full flex`}>
-                    <Field light type={'text'} label={'Username or Email'} name={'username'} disabled={isSubmitting} />
-                    <div css={tw`mt-6`}>
-                        <Field light type={'password'} label={'Password'} name={'password'} disabled={isSubmitting} />
-                    </div>
-                    <div css={tw`mt-6`}>
-                        <Button type={'submit'} size={'xlarge'} isLoading={isSubmitting} disabled={isSubmitting}>
-                            Login
-                        </Button>
-                    </div>
-                    {recaptchaEnabled && (
-                        <Reaptcha
-                            ref={ref}
-                            size={'invisible'}
-                            sitekey={siteKey || '_invalid_key'}
-                            onVerify={(response) => {
-                                setToken(response);
-                                submitForm();
-                            }}
-                            onExpire={() => {
-                                setSubmitting(false);
-                                setToken('');
-                            }}
+                <>
+                    <TaproNavbar />
+                    <TaproBackground />
+                    <LoginFormContainer title={'Welcome to Tapro Cloud'} css={tw`w-full flex`}>
+                        <Field
+                            light={false}
+                            type={'text'}
+                            label={'Username or Email'}
+                            name={'username'}
+                            disabled={isSubmitting}
+                            css={tw`bg-slate-800/50 border-slate-700 focus:border-blue-500 text-white rounded-xl`}
                         />
-                    )}
-                    <div css={tw`mt-6 text-center`}>
-                        <Link
-                            to={'/auth/password'}
-                            css={tw`text-xs text-neutral-500 tracking-wide no-underline uppercase hover:text-neutral-600`}
-                        >
-                            Forgot password?
-                        </Link>
-                    </div>
-                </LoginFormContainer>
+                        <div css={tw`mt-6`}>
+                            <Field
+                                light={false}
+                                type={'password'}
+                                label={'Password'}
+                                name={'password'}
+                                disabled={isSubmitting}
+                                css={tw`bg-slate-800/50 border-slate-700 focus:border-blue-500 text-white rounded-xl`}
+                            />
+                        </div>
+                        <div css={tw`mt-6`}>
+                            <Button
+                                type={'submit'}
+                                size={'xlarge'}
+                                isLoading={isSubmitting}
+                                disabled={isSubmitting}
+                                css={tw`w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 border-none rounded-xl py-3 shadow-lg shadow-blue-900/20 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] font-bold`}
+                            >
+                                Sign In
+                            </Button>
+                        </div>
+                        {recaptchaEnabled && (
+                            <Reaptcha
+                                ref={ref}
+                                size={'invisible'}
+                                sitekey={siteKey || '_invalid_key'}
+                                onVerify={(response) => {
+                                    setToken(response);
+                                    submitForm();
+                                }}
+                                onExpire={() => {
+                                    setSubmitting(false);
+                                    setToken('');
+                                }}
+                            />
+                        )}
+                        <div css={tw`mt-6 text-center`}>
+                            <Link
+                                to={'/auth/password'}
+                                css={tw`text-sm text-neutral-400 tracking-wide no-underline transition-colors duration-200 hover:text-white`}
+                            >
+                                Trouble signing in?
+                            </Link>
+                        </div>
+                    </LoginFormContainer>
+                </>
             )}
         </Formik>
     );
